@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Unit 1</title>
+<style>/* hmi:css */
+body { margin: 0; }
+.row { display: flex; gap: 32px; align-items: flex-end; padding: 16px; }
+.item { width: 64px; text-align: center; font: 600 11px var(--hmi-font); }
+.value { display: block; font: 13px var(--hmi-font); }
+</style>
+</head>
+<body class="hmi-screen">
+  <div class="row">
+    <div class="item" data-symbol="T-101"><!-- hmi:svg tank-vertical --><span>T-101</span><span class="value" data-part="value">–</span></div>
+    <div class="item" data-symbol="P-101"><!-- hmi:svg pump-centrifugal --><span>P-101</span><span class="value" data-part="value">–</span></div>
+    <div class="item" data-symbol="XV-101"><!-- hmi:svg valve-gate --><span>XV-101</span></div>
+  </div>
+  <script>/* hmi:script */</script>
+</body>
+</html>

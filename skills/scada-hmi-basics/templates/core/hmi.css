@@ -1,0 +1,240 @@
+/*
+ * HMI theme and symbol states. Import once, at the app root.
+ *
+ * ISA-101 (high-performance HMI) is the default: grey screens, equipment in
+ * shades of grey, colour kept for abnormal states and alarms. The classic
+ * theme recolours the same symbols: put data-hmi-theme="classic" on <html>.
+ *
+ * Symbols follow the symbol contract (scada-assets): state lives in data-*
+ * attributes on the [data-symbol] element, parts are [data-part] inside it.
+ * Motion (rotors, flow, valve travel) is in hmi-motion.css (scada-animation).
+ */
+
+:root {
+  /* Screen */
+  --hmi-bg: #d4d4d4;
+  --hmi-panel: #e3e3e3;
+  --hmi-fg: #1f1f1f;
+  --hmi-muted: #5c5c5c;
+  --hmi-line: #8a8a8a;
+  --hmi-pipe: #6f6f6f;
+  --hmi-font: "Inter", "Segoe UI", system-ui, sans-serif;
+
+  /* Equipment */
+  --hmi-equip-stroke: #3a3a3a;
+  --hmi-equip-off: #ececec;      /* stopped, closed: light */
+  --hmi-equip-on: #5a5a5a;       /* running, open: dark */
+  --hmi-equip-transit: #9a9a9a;  /* starting, stopping, travel */
+  --hmi-fault: #3a3a3a;
+  --hmi-level: #7d9bb5;          /* liquid: the one muted hue on a normal screen */
+
+  /* Alarms (ISA-18.2 priority); each also has a shape and number for colour-blind operators */
+  --hmi-alarm-critical: #e0001b;
+  --hmi-alarm-high: #ff7a00;
+  --hmi-alarm-medium: #f2c200;
+  --hmi-alarm-low: #19a7d8;
+  --hmi-alarm-ink: #000;
+
+  /* Data quality */
+  --hmi-bad: #a020a0;
+  --hmi-uncertain: #a020a0;
+
+  --hmi-blink: 1s;               /* unacknowledged alarm: 0.5 s on, 0.5 s off */
+}
+
+/* Dark control-room variant of ISA-101: same rules, darker greys. */
+:root[data-hmi-dark] {
+  --hmi-bg: #2b2b2b;
+  --hmi-panel: #353535;
+  --hmi-fg: #e6e6e6;
+  --hmi-muted: #a8a8a8;
+  --hmi-line: #6a6a6a;
+  --hmi-pipe: #8c8c8c;
+  --hmi-equip-stroke: #cfcfcf;
+  --hmi-equip-off: #3a3a3a;
+  --hmi-equip-on: #bdbdbd;
+  --hmi-equip-transit: #7a7a7a;
+  --hmi-fault: #cfcfcf;
+  --hmi-alarm-ink: #000;
+}
+
+/* Classic: the colours many plants still expect. Opt-in only. */
+:root[data-hmi-theme="classic"] {
+  --hmi-bg: #c8d0d8;
+  --hmi-equip-off: #d93a3a;
+  --hmi-equip-on: #2fa84f;
+  --hmi-equip-transit: #e8c13a;
+  --hmi-level: #3a8ee6;
+  --hmi-pipe: #4a6070;
+}
+
+.hmi-screen {
+  background: var(--hmi-bg);
+  color: var(--hmi-fg);
+  font-family: var(--hmi-font);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Symbols ─────────────────────────────────────────────────────────── */
+
+[data-symbol] {
+  position: relative;
+  color: var(--hmi-equip-stroke); /* currentColor for strokes */
+}
+
+/* An HTML-hosted symbol fills its box. A symbol placed inside an SVG drawing
+   (a P&ID) keeps the size its placement gives it. */
+:where(div, button, span, a, li)[data-symbol] > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+[data-symbol] [data-part="body"] {
+  fill: var(--hmi-equip-off);
+  stroke: currentColor;
+  transition: fill 150ms linear;
+}
+
+[data-symbol][data-run="running"] [data-part="body"],
+[data-symbol][data-position="open"] [data-part="body"] {
+  fill: var(--hmi-equip-on);
+}
+
+[data-symbol][data-run="starting"] [data-part="body"],
+[data-symbol][data-run="stopping"] [data-part="body"],
+[data-symbol][data-position="travel"] [data-part="body"] {
+  fill: var(--hmi-equip-transit);
+}
+
+/* Fault: crossed out, not coloured; the alarm carries the colour. */
+[data-symbol][data-run="fault"] [data-part="body"] {
+  fill: var(--hmi-equip-off);
+  stroke-dasharray: 3 2;
+}
+
+/* Fill level: the part is scaled from its bottom edge by --level (0..1). */
+[data-symbol] [data-part="fill-level"] {
+  fill: var(--hmi-level);
+  stroke: none;
+  transform-box: fill-box;
+  transform-origin: bottom;
+  transform: scaleY(var(--level, 0));
+  transition: transform 400ms linear;
+}
+
+[data-symbol] [data-part="label"],
+[data-symbol] [data-part="value"] {
+  font-family: var(--hmi-font);
+  fill: var(--hmi-fg);
+  color: var(--hmi-fg);
+}
+
+[data-symbol] [data-part="alarm-ring"] {
+  fill: none;
+  stroke: none;
+}
+
+/* ── Mode: a small letter badge, never a colour ──────────────────────── */
+
+[data-symbol][data-mode="manual"]::before,
+[data-symbol][data-mode="maintenance"]::before {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  padding: 0 3px;
+  border: 1px solid var(--hmi-fg);
+  background: var(--hmi-panel);
+  color: var(--hmi-fg);
+  font: 600 10px/14px var(--hmi-font);
+}
+[data-symbol][data-mode="manual"]::before { content: "M"; }
+[data-symbol][data-mode="maintenance"]::before { content: "MNT"; }
+
+/* ── Alarms: colour + shape + priority number ────────────────────────── */
+
+[data-symbol]:not([data-alarm="none"])[data-alarm] [data-part="alarm-ring"] {
+  stroke: var(--sym-alarm);
+  stroke-width: 3;
+}
+
+[data-symbol]:not([data-alarm="none"])[data-alarm]::after {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 2px;
+  background: var(--sym-alarm);
+  color: var(--hmi-alarm-ink);
+  font: 700 11px/16px var(--hmi-font);
+  text-align: center;
+  content: var(--sym-alarm-label);
+  clip-path: var(--sym-alarm-shape);
+}
+
+[data-symbol][data-alarm="critical"] { --sym-alarm: var(--hmi-alarm-critical); --sym-alarm-label: "1"; --sym-alarm-shape: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+[data-symbol][data-alarm="high"]     { --sym-alarm: var(--hmi-alarm-high);     --sym-alarm-label: "2"; --sym-alarm-shape: polygon(50% 0, 100% 100%, 0 100%); }
+[data-symbol][data-alarm="medium"]   { --sym-alarm: var(--hmi-alarm-medium);   --sym-alarm-label: "3"; --sym-alarm-shape: inset(0); }
+[data-symbol][data-alarm="low"]      { --sym-alarm: var(--hmi-alarm-low);      --sym-alarm-label: "4"; --sym-alarm-shape: circle(50%); }
+
+/* Unacknowledged: the indicator blinks until someone acknowledges it. */
+[data-symbol][data-alarm-acked="false"]:not([data-alarm="none"])::after,
+[data-symbol][data-alarm-acked="false"]:not([data-alarm="none"]) [data-part="alarm-ring"] {
+  animation: hmi-blink var(--hmi-blink) steps(1, end) infinite;
+}
+
+/* Returned to normal but not acknowledged: hollow indicator. */
+[data-symbol][data-alarm-active="false"]:not([data-alarm="none"])::after {
+  background: var(--hmi-panel);
+  outline: 2px solid var(--sym-alarm);
+  outline-offset: -2px;
+}
+
+[data-symbol][data-alarm-shelved="true"] [data-part="label"] {
+  text-decoration: underline dotted;
+}
+
+@keyframes hmi-blink {
+  50% { opacity: 0; }
+}
+
+/* ── Data quality: the value cannot be trusted ───────────────────────── */
+
+[data-symbol][data-quality="uncertain"] [data-part="value"] {
+  font-style: italic;
+}
+[data-symbol][data-quality="uncertain"] [data-part="value"]::after { content: "?"; }
+
+[data-symbol][data-quality="bad"] [data-part="body"],
+[data-symbol][data-quality="stale"] [data-part="body"],
+[data-symbol][data-quality="comms-lost"] [data-part="body"] {
+  fill: var(--hmi-equip-off);
+  stroke-dasharray: 2 2;
+}
+
+[data-symbol][data-quality="bad"] [data-part="value"],
+[data-symbol][data-quality="stale"] [data-part="value"],
+[data-symbol][data-quality="comms-lost"] [data-part="value"] {
+  fill: var(--hmi-bad);
+  color: var(--hmi-bad);
+  text-decoration: line-through;
+}
+
+/* Comms lost: the whole symbol is greyed, so nobody acts on its last value. */
+[data-symbol][data-quality="comms-lost"] {
+  opacity: 0.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Alarms keep blinking (ISA-18.2), but slower and with a softer contrast. */
+  [data-symbol][data-alarm-acked="false"]:not([data-alarm="none"])::after,
+  [data-symbol][data-alarm-acked="false"]:not([data-alarm="none"]) [data-part="alarm-ring"] {
+    animation-duration: 2s;
+  }
+  [data-symbol] [data-part="body"],
+  [data-symbol] [data-part="fill-level"] {
+    transition: none;
+  }
+}

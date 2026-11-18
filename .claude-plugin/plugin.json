@@ -1,0 +1,14 @@
+{
+  "name": "machhub-extra",
+  "displayName": "MACHHUB Extra",
+  "version": "0.1.0",
+  "description": "Optional MACHHUB skills beyond the core set. SCADA: HMI screens, P&ID process graphics, animation and SVG symbols on the MACHHUB runtime, with templates and tests.",
+  "author": {
+    "name": "Intellogic Technology Sdn Bhd",
+    "url": "https://github.com/machhub-dev"
+  },
+  "homepage": "https://github.com/machhub-dev/skills-extra",
+  "repository": "https://github.com/machhub-dev/skills-extra",
+  "license": "MPL-2.0",
+  "keywords": ["machhub", "scada", "hmi", "p&id", "isa-101", "svg", "animation", "uns", "mqtt", "sveltekit"]
+}

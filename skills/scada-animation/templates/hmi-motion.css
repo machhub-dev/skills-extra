@@ -1,0 +1,101 @@
+/*
+ * Equipment motion for symbols that follow the symbol contract. Import after
+ * hmi.css. Every rule is driven by a data-* state the binding sets, so the
+ * browser runs the animation and no script ticks per frame.
+ *
+ * Budget: motion means "this is moving in the plant". Animate only running
+ * equipment and flowing lines; never animate to decorate.
+ *
+ * Every motion rule carries :not(bad, stale, comms-lost) itself: on data that
+ * cannot be trusted nothing moves, whatever else matches.
+ */
+
+/* ── Rotors: pumps, fans, agitators, motors ──────────────────────────── */
+
+[data-symbol] [data-part="rotor"] {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+[data-symbol][data-run="running"]:not([data-rotor="speed"], [data-quality="bad"], [data-quality="stale"], [data-quality="comms-lost"]) [data-part="rotor"] {
+  animation: hmi-spin var(--rotor-period, 1.2s) linear infinite;
+}
+
+[data-symbol][data-run="starting"]:not([data-rotor="speed"], [data-quality="bad"], [data-quality="stale"], [data-quality="comms-lost"]) [data-part="rotor"],
+[data-symbol][data-run="stopping"]:not([data-rotor="speed"], [data-quality="bad"], [data-quality="stale"], [data-quality="comms-lost"]) [data-part="rotor"] {
+  animation: hmi-spin calc(var(--rotor-period, 1.2s) * 3) linear infinite;
+}
+
+@keyframes hmi-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Flow on pipes ───────────────────────────────────────────────────── */
+/*
+ * A pipe is an SVG path with data-pipe. Its element gets data-flow="forward",
+ * "reverse" or "none" from a binding (see scada-pid). The dash pattern sums
+ * to 16, and the keyframe moves one pattern, so the loop is seamless.
+ */
+
+[data-pipe] {
+  fill: none;
+  stroke: var(--hmi-pipe);
+  stroke-width: var(--pipe-width, 4);
+  stroke-linecap: butt;
+}
+
+[data-pipe][data-flow="forward"],
+[data-pipe][data-flow="reverse"] {
+  stroke-dasharray: 10 6;
+}
+
+[data-pipe]:is([data-flow="forward"], [data-flow="reverse"]):not([data-quality="bad"], [data-quality="stale"], [data-quality="comms-lost"]) {
+  animation: hmi-flow var(--flow-period, 0.8s) linear infinite;
+}
+
+/* Same specificity as the rule above and after it, so the direction survives its shorthand. */
+[data-pipe][data-flow="reverse"]:not([data-quality="bad"], [data-quality="stale"], [data-quality="comms-lost"]) {
+  animation-direction: reverse;
+}
+
+@keyframes hmi-flow {
+  to { stroke-dashoffset: -16; }
+}
+
+/* ── Valves: the stem shows travel ───────────────────────────────────── */
+
+[data-symbol] [data-part="stem"] {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 300ms ease-in-out;
+}
+
+[data-symbol][data-position="closed"] [data-part="stem"] {
+  transform: rotate(90deg);
+}
+
+[data-symbol][data-position="travel"]:not([data-quality="bad"], [data-quality="stale"], [data-quality="comms-lost"]) [data-part="stem"] {
+  animation: hmi-travel 0.9s ease-in-out infinite alternate;
+}
+
+@keyframes hmi-travel {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(90deg); }
+}
+
+/* ── Reduced motion: keep the state, drop the movement ───────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-symbol][data-run] [data-part="rotor"],
+  [data-symbol][data-position="travel"] [data-part="stem"] {
+    animation: none;
+  }
+  /* Flow stays visible as a static dashed line. */
+  [data-pipe][data-flow="forward"],
+  [data-pipe][data-flow="reverse"] {
+    animation: none;
+  }
+  [data-symbol] [data-part="stem"] {
+    transition: none;
+  }
+}

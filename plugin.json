@@ -1,0 +1,5 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "machhub-extra",
+  "description": "Optional MACHHUB skills: SCADA screens, P&ID graphics, animation and SVG symbols on the MACHHUB runtime. Skills live in ./skills/."
+}

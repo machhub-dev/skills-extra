@@ -1,0 +1,15 @@
+{
+  "title": "Unit 1 mimic",
+  "description": "Read-only overview of Unit 1 for the shift dashboard.",
+  "entry": "mimic.ts",
+  "html": "mimic.html",
+  "css": ["src/lib/hmi/core/hmi.css", "src/lib/hmi/hmi-motion.css"],
+  "binding": "plant",
+  "topics": [
+    "PlantA/Area1/Unit1/T101/Level",
+    "PlantA/Area1/Unit1/P101/Running",
+    "PlantA/Area1/Unit1/P101/Speed",
+    "PlantA/Area1/Unit1/XV101/Open"
+  ],
+  "out": "dist/unit1-mimic.artifact.json"
+}

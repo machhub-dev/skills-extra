@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" data-symbol-kind="tank-vertical">
+  <title>Vertical tank</title>
+  <rect data-part="alarm-ring" x="19" y="6" width="62" height="90" rx="14"/>
+  <rect data-part="body" x="25" y="12" width="50" height="78" rx="10" stroke-width="3"/>
+  <rect data-part="fill-level" x="29" y="16" width="42" height="70" rx="6"/>
+  <circle data-port="in" cx="50" cy="12" r="0" fill="none"/>
+  <circle data-port="out" cx="50" cy="90" r="0" fill="none"/>
+</svg>
