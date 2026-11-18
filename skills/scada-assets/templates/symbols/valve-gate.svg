@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" data-symbol-kind="valve-gate">
+  <title>Gate valve</title>
+  <circle data-part="alarm-ring" cx="50" cy="60" r="40"/>
+  <path data-part="body" d="M14 42 L50 60 L14 78 Z M86 42 L50 60 L86 78 Z" stroke-width="3" stroke-linejoin="round"/>
+  <g data-part="stem" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+    <path d="M50 60 V22 M38 22 H62"/>
+  </g>
+  <circle data-port="in" cx="14" cy="60" r="0" fill="none"/>
+  <circle data-port="out" cx="86" cy="60" r="0" fill="none"/>
+</svg>

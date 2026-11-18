@@ -1,0 +1,16 @@
+{
+  "name": "machhub-extra",
+  "owner": {
+    "name": "Intellogic Technology Sdn Bhd"
+  },
+  "metadata": {
+    "description": "Optional MACHHUB plugins for Cursor."
+  },
+  "plugins": [
+    {
+      "name": "machhub-extra",
+      "source": ".",
+      "description": "SCADA on MACHHUB: HMI screens, P&ID graphics, animation and SVG symbols."
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "skills-extra-template-tests",
+  "private": true,
+  "type": "module",
+  "description": "Builds the skills' templates into one app and runs their checks. scripts/test-templates.mjs copies the templates in first.",
+  "scripts": {
+    "check": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings",
+    "test": "playwright test --trace off"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.49.1",
+    "@sveltejs/vite-plugin-svelte": "5.0.3",
+    "esbuild": "0.24.2",
+    "motion": "12.4.7",
+    "svelte": "5.19.0",
+    "svelte-check": "4.1.4",
+    "svgo": "4.0.0",
+    "typescript": "5.8.3",
+    "uplot": "1.6.31",
+    "vite": "6.0.7"
+  }
+}

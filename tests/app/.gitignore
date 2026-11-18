@@ -1,0 +1,10 @@
+node_modules/
+dist/
+src/lib/
+tests/hmi.spec.ts
+tests/pid.spec.ts
+artifact/
+test-results/
+playwright-report/
+THIRD_PARTY.md
+.hmi-symbols-cache/

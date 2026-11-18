@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" data-symbol-kind="pump-centrifugal">
+  <title>Centrifugal pump</title>
+  <circle data-part="alarm-ring" cx="50" cy="50" r="46"/>
+  <circle data-part="body" cx="50" cy="50" r="34" stroke-width="3"/>
+  <g data-part="rotor" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none">
+    <path d="M50 50 L50 24 M50 50 L72.5 63 M50 50 L27.5 63"/>
+  </g>
+  <path d="M50 16 H90 V30" fill="none" stroke="currentColor" stroke-width="3"/>
+  <circle data-port="in" cx="16" cy="50" r="0" fill="none"/>
+  <circle data-port="out" cx="90" cy="30" r="0" fill="none"/>
+</svg>

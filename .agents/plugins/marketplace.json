@@ -1,0 +1,20 @@
+{
+  "name": "machhub-extra",
+  "interface": {
+    "displayName": "MACHHUB Extra"
+  },
+  "plugins": [
+    {
+      "name": "machhub-extra",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

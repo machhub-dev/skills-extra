@@ -1,0 +1,33 @@
+{
+  "name": "machhub-extra",
+  "version": "0.1.0",
+  "description": "Optional MACHHUB skills beyond the core set. SCADA: HMI screens, P&ID process graphics, animation and SVG symbols on the MACHHUB runtime, with templates and tests.",
+  "author": {
+    "name": "Intellogic Technology Sdn Bhd",
+    "url": "https://github.com/machhub-dev"
+  },
+  "homepage": "https://github.com/machhub-dev/skills-extra",
+  "repository": "https://github.com/machhub-dev/skills-extra",
+  "license": "MPL-2.0",
+  "keywords": ["machhub", "scada", "hmi", "p&id", "isa-101", "svg", "animation", "uns", "mqtt", "sveltekit"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "MACHHUB Extra",
+    "shortDescription": "SCADA screens, P&ID graphics and symbols on MACHHUB",
+    "longDescription": "Optional MACHHUB skills. Build SCADA on the MACHHUB runtime: ISA-101 HMI screens with alarms, data quality and safe operator control; P&ID process graphics with pipes that snap to symbol ports; state-driven animation; and SVG symbols fetched from open-source sets or drawn to a symbol contract.",
+    "developerName": "Intellogic Technology Sdn Bhd",
+    "category": "Developer Tools",
+    "capabilities": ["Read", "Write"],
+    "websiteURL": "https://github.com/machhub-dev/skills-extra",
+    "termsOfServiceURL": "https://github.com/machhub-dev/skills-extra/blob/main/LICENSE",
+    "defaultPrompt": [
+      "Build an HMI screen for pump P-101 on MACHHUB",
+      "Draw a P&ID screen of Unit 1 with live flow",
+      "Add a heat exchanger symbol to my screen"
+    ],
+    "brandColor": "#0B0F14",
+    "composerIcon": "./assets/machhub-icon.svg",
+    "logo": "./assets/machhub-icon.png",
+    "screenshots": []
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "fuxa": {
+    "name": "FUXA shapes",
+    "repo": "https://github.com/frangoteam/FUXA",
+    "commit": "f176fb057d9e3c0d5e37b81e5aef70ccff9d752c",
+    "dir": "client/src/assets/lib/svgeditor/shapes/img",
+    "licence": "MIT",
+    "copyright": "Copyright (c) 2019-2025 frangoteam",
+    "licenceFile": "LICENSE",
+    "notes": "24x24 outline shapes drawn for a dark editor: pumps, compressors, valves, tanks, exchangers, agitators. The fitter strips their white strokes."
+  },
+  "equinor": {
+    "name": "Equinor engineering symbols",
+    "repo": "https://github.com/equinor/engineering-symbols",
+    "commit": "e86fad89d8e747366daeb2c5006c35a7cf8cd00e",
+    "dir": "package/src/svg",
+    "licence": "MIT",
+    "copyright": "Copyright (c) 2020 Equinor ASA",
+    "licenceFile": "LICENSE",
+    "notes": "96x96 ISO-style P&ID symbols drawn as filled outlines, with connector annotations the fitter turns into data-port. Codes: PP pumps, PV valves, PT tanks/vessels, PA agitators, PS separators, ND nodes, IM instruments."
+  }
+}

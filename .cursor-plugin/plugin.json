@@ -1,0 +1,18 @@
+{
+  "name": "machhub-extra",
+  "displayName": "MACHHUB Extra",
+  "version": "0.1.0",
+  "description": "SCADA on MACHHUB: HMI screens, P&ID graphics, animation and SVG symbols.",
+  "author": {
+    "name": "Intellogic Technology Sdn Bhd"
+  },
+  "publisher": "MACHHUB",
+  "homepage": "https://github.com/machhub-dev/skills-extra",
+  "repository": "https://github.com/machhub-dev/skills-extra",
+  "license": "MPL-2.0",
+  "logo": "assets/machhub-icon.png",
+  "category": "developer-tools",
+  "keywords": ["machhub", "scada", "hmi", "p&id", "isa-101", "svg", "animation", "uns", "mqtt", "sveltekit"],
+  "tags": ["iiot", "scada", "frontend"],
+  "skills": "./skills/"
+}

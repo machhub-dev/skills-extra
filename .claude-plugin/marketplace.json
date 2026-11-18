@@ -1,0 +1,21 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "machhub-extra",
+  "description": "Optional MACHHUB skills for Claude Code.",
+  "owner": {
+    "name": "Intellogic Technology Sdn Bhd",
+    "url": "https://github.com/machhub-dev"
+  },
+  "plugins": [
+    {
+      "name": "machhub-extra",
+      "displayName": "MACHHUB Extra",
+      "description": "SCADA on MACHHUB: HMI screens, P&ID graphics, animation and SVG symbols.",
+      "source": "./",
+      "category": "development",
+      "homepage": "https://github.com/machhub-dev/skills-extra",
+      "repository": "https://github.com/machhub-dev/skills-extra",
+      "license": "MPL-2.0"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+dist/
+node_modules/
+.hmi-symbols-cache/
+.test-app/
