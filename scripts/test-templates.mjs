@@ -13,7 +13,7 @@
 // Chromium; otherwise run `npx playwright install chromium` in tests/app.
 
 import { execFileSync } from "node:child_process";
-import { cpSync, mkdirSync, rmSync } from "node:fs";
+import { cpSync, mkdirSync, readFileSync, rmSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -25,6 +25,15 @@ const at = (...p) => join(app, ...p);
 function run(label, cmd, args, cwd = app) {
   console.log(`\n▶ ${label}`);
   execFileSync(cmd, args, { cwd, stdio: "inherit", env: { ...process.env, CI: process.env.CI ?? "" } });
+}
+
+// A tool installed in tests/app, run with node from its package's "bin" entry.
+// Not through npx: on Windows npx is npx.cmd, which execFileSync cannot start
+// without a shell (spawnSync npx ENOENT).
+function localBin(pkg, name) {
+  const dir = at("node_modules", pkg);
+  const { bin } = JSON.parse(readFileSync(join(dir, "package.json"), "utf8"));
+  return join(dir, typeof bin === "string" ? bin : bin[name]);
 }
 
 // Lay the templates out as the skills say: src/lib/hmi, src/lib/symbols.
@@ -40,9 +49,9 @@ cpSync(skill("scada-pid/templates/tests/pid.spec.ts"), at("tests/pid.spec.ts"));
 cpSync(skill("scada-hmi-basics/templates/artifact"), at("artifact"), { recursive: true });
 
 run("Example symbols follow the contract", "node", [skill("scada-assets/scripts/check-symbols.mjs"), at("src/lib/symbols"), "--strict"]);
-run("Templates typecheck", "npx", ["svelte-check", "--tsconfig", "./tsconfig.json", "--fail-on-warnings"]);
+run("Templates typecheck", "node", [localBin("svelte-check", "svelte-check"), "--tsconfig", "./tsconfig.json", "--fail-on-warnings"]);
 run("Artifact mimic builds", "node", [at("artifact/build-artifact.mjs"), at("artifact/artifact.config.json")]);
-run("Screens behave on the simulator", "npx", ["playwright", "test", "--trace", "off", "--reporter=line"]);
+run("Screens behave on the simulator", "node", [localBin("@playwright/test", "playwright"), "test", "--trace", "off", "--reporter=line"]);
 
 if (process.argv.includes("--fetch")) {
   const out = at("dist/vendor");
